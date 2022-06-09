@@ -10,15 +10,9 @@ import sys
 import pyqrcode
 
 
-def read_sys_argv(command_argv):
-    pass
-
-
-def qrcode_code():
-    if len(sys.argv) > 1:
-        qr_str = sys.argv[1]
-    else:
-        qr_str = input('Введите строку для генерации QRcode: ')
+def qrcode_code(qr_str=None):
+    """функция кодирования фразы в qrcode"""
+    qr_str = qr_str if qr_str else input('Введите строку для генерации QRcode: ')
 
     try:
         qr = pyqrcode.create(qr_str)
@@ -53,14 +47,42 @@ command_dict = {
 }
 
 
+def read_sys_argv(command_argv):
+    """функция чтения аргументов из командной строки,
+    если такие есть"""
+    if len(command_argv) != 3:
+        no_error = False
+        message = 'Необходимо два аргумента: команда и имя строки или файла'
+        return no_error, message, None, None
+
+    command = command_argv[1]
+    name = command_argv[2]
+
+    if command not in command_dict or command == 'exit':
+        no_error = False
+        message = f'Такая команда - {command} - не поддерживается!'
+        return no_error, message, None, None
+
+    no_error = True
+    message = 'Ok'
+
+    return no_error, message, command, name
+
+
 while True:
     """если программа запускается из терминала
-    с дополнительными аргументами"""
+    с дополнительными аргументами, то выполняется один раз и выходит из программы"""
     if len(sys.argv) > 1:
-        read_sys_argv(sys.argv)
+        no_error, message, command, name = read_sys_argv(sys.argv)
+        if no_error:
+            command_dict[command](name)
+        else:
+            print(message)
         break
 
-    command = input('Введите команду: ')
+    """если программа запускается без дополнительных аргументов,
+    то запускается цикл получения команд"""
+    command = input(f'Введите команду ({",".join(list(command_dict.keys()))}): ')
     if command not in command_dict:
         print('Неизвестная команда!\n')
         continue
