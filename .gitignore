@@ -1,0 +1,15 @@
+img/
+.img
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+
+# Папки, создаваемые средой разработки
+.idea
