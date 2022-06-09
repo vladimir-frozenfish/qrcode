@@ -5,11 +5,12 @@ decode - чтение из QRcode строки
 exit - выход из программы
 """
 
-import time, sys
+import time
+import sys
 import pyqrcode
 
 
-def read_sys_argv():
+def read_sys_argv(command_argv):
     pass
 
 
@@ -44,19 +45,21 @@ def qrcode_code():
 def qrcode_decode():
     pass
 
+
 command_dict = {
     'code': qrcode_code,
     'decode': qrcode_decode,
     'exit': sys.exit
 }
 
+
 while True:
+    if len(sys.argv) > 1:
+        read_sys_argv(sys.argv)
+        break
+
     command = input('Введите команду: ')
     if command not in command_dict:
         print('Неизвестная команда!\n')
         continue
     command_dict[command]()
-    # qrcode_make_png()
-
-
-
