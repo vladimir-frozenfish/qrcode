@@ -54,6 +54,8 @@ command_dict = {
 
 
 while True:
+    """если программа запускается из терминала
+    с дополнительными аргументами"""
     if len(sys.argv) > 1:
         read_sys_argv(sys.argv)
         break
