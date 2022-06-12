@@ -17,7 +17,7 @@ else:
     qr_str = input('Введите строку для генерации QRcode: ')
 
 try:
-    qr = pyqrcode.create(qr_str)
+    qr = pyqrcode.create(qr_str, encoding='utf-8')
 except UnicodeEncodeError as error:
     print('Не получилось создать QRcode! Попробуйте другую строку.')
     print(error)

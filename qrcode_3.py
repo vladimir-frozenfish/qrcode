@@ -15,7 +15,7 @@ def qrcode_code(qr_str=None):
     qr_str = qr_str if qr_str else input('Введите строку для генерации QRcode: ')
 
     try:
-        qr = pyqrcode.create(qr_str)
+        qr = pyqrcode.create(qr_str, encoding='utf-8')
     except UnicodeEncodeError as error:
         print('Не получилось создать QRcode! Попробуйте другую строку.')
         print(error)
@@ -31,7 +31,7 @@ def qrcode_code(qr_str=None):
                         f'{time_file.tm_year}{time_file.tm_mon}{time_file.tm_mday}_'
                         f'{time_file.tm_hour}{time_file.tm_min}{time_file.tm_sec}')
 
-    qr.png(f'img/{qr_file_name}.png', scale=10)
+    qr.png(f'img/{qr_file_name}.png', scale=10, quiet_zone=1)
 
     print(f'\nДля строки - "{qr_str}", создан QRcode - {qr_file_name}.png\n')
 
