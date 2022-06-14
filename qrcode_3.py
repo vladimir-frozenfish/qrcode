@@ -9,6 +9,7 @@ import time
 import sys
 import pyqrcode
 
+from os import path
 from pyzbar.pyzbar import decode
 from PIL import Image, UnidentifiedImageError
 
@@ -42,6 +43,12 @@ def qrcode_code(qr_str=None):
 def qrcode_decode(qr_file=None):
     """функция чтения qrcode из изображения (файла)"""
     qr_file = qr_file or input('Введите путь к изображению для чтения QRcode: ')
+
+    # проверка есть ли такой файл
+    if not path.isfile(qr_file):
+        print('Такого файла не существует!')
+        return None
+
     try:
         qr_image = Image.open(qr_file)
         qr_decode = decode(qr_image)
