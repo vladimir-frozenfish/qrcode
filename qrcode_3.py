@@ -9,10 +9,13 @@ import time
 import sys
 import pyqrcode
 
+from pyzbar.pyzbar import decode
+from PIL import Image, UnidentifiedImageError
+
 
 def qrcode_code(qr_str=None):
     """функция кодирования фразы в qrcode"""
-    qr_str = qr_str if qr_str else input('Введите строку для генерации QRcode: ')
+    qr_str = qr_str or input('Введите строку для генерации QRcode: ')
 
     try:
         qr = pyqrcode.create(qr_str, encoding='utf-8')
@@ -36,8 +39,19 @@ def qrcode_code(qr_str=None):
     print(f'\nДля строки - "{qr_str}", создан QRcode - {qr_file_name}.png\n')
 
 
-def qrcode_decode():
-    pass
+def qrcode_decode(qr_file=None):
+    """функция чтения qrcode из изображения (файла)"""
+    qr_file = qr_file or input('Введите путь к изображению для чтения QRcode: ')
+    try:
+        qr_image = Image.open(qr_file)
+        qr_decode = decode(qr_image)
+        if qr_decode:
+            print(f'QRcode на изображении {qr_file} - {qr_decode[0].data.decode("utf-8")}')
+        else:
+            print(f'Не удалось распознать в изображении {qr_file} QRcode!')
+    except UnidentifiedImageError as error:
+        print('Файл не является изображением!')
+        print(error)
 
 
 command_dict = {
